@@ -201,11 +201,8 @@ function render(){
  // Mesmo event_id no pixel e na API de Conversões (Apps Script) para a Meta não contar o lead duas vezes
  const eventId='lead-'+Date.now()+'-'+Math.random().toString(36).slice(2,10);
  Object.assign(payload,ORIGEM,{eventId,fbp:cookie('_fbp'),fbc:cookie('_fbc')||(new URLSearchParams(location.search).get('fbclid')?'fb.1.'+Date.now()+'.'+new URLSearchParams(location.search).get('fbclid'):''),pageUrl:location.href,userAgent:navigator.userAgent});
- // Lead qualificado: dispara o evento Lead. Os demais vão para a planilha, mas sem Lead:
- // teste=true faz o Apps Script pular a API de Conversões, e o pixel registra só um evento à parte.
- const qualificado=IDADES_QUALIFICADAS.includes(answers.age)&&OCUPACOES_QUALIFICADAS.includes(answers.occupation);
- if(qualificado)track('track','Lead',{content_name:answers.occupation},{eventID:eventId});
- else{payload.teste=true;track('trackCustom','LeadNaoQualificado',{content_name:answers.occupation});}
+ // Todo lead concluído dispara o evento Lead (pixel e API de Conversões), qualificado ou não.
+ track('track','Lead',{content_name:answers.occupation},{eventID:eventId});
  enviarPlanilha(Object.assign(payload,{leadId,status:'Completo'}));
  const firstName=esc(answers.name.trim().split(/\s+/)[0]);
  const desc='Clique abaixo e envie a mensagem no WhatsApp. Um corretor vai separar as melhores opções de imóveis para o seu perfil.';
