@@ -192,8 +192,8 @@ function render(){
  document.querySelector('[role=progressbar]').setAttribute('aria-valuenow',pct);
  if(finished){
  const rows=['name','phone','age','occupation'].filter(id=>list.some(q=>q.id===id)).map(id=>[LABELS[id],id]);
- const intro='Olá, Ezequiel! Preenchi o formulário e gostaria de receber opções de imóveis para o meu perfil.';
- const message=intro+'\n\n'+rows.map(([label,id])=>label+': '+answers[id]).join('\n')+'\nImóvel de interesse: '+IMOVEL_TITULO;
+ const intro='Olá, Ezequiel! Tenho interesse no '+IMOVEL_TITULO+'. Preenchi o formulário e gostaria de receber mais informações.';
+ const message=intro+'\n\n'+rows.map(([label,id])=>label+': '+answers[id]).join('\n');
  const whatsappLink='https://wa.me/'+WHATSAPP_NUMERO+'?text='+encodeURIComponent(message);
  const leadPhoneDigits=(answers.phone||'').replace(/\D/g,'');
  const payload={};for(const id of Object.keys(LABELS))payload[id]=list.some(q=>q.id===id)?answers[id]:'';
